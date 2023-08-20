@@ -46,3 +46,23 @@ Array.prototype.myReduce = function (callback, initialValue){
 }
 
 [3,4,2,5,6].myReduce((acc, num) => acc + num, 0); //20
+
+//polyfill for the bind method
+
+Function.prototype.myBind = function (...args){
+    const self = this;
+    const params = args.slice(1);
+    return function(...args2){
+        return self.apply(args[0], [...params, ...args2]);
+    }
+}
+
+const myObj = {
+    firstName: "shubh"
+}
+function printMyName(city, state){
+    console.log(this.firstName + " from " + city + ", " + state);
+}
+const func = printMyName.myBind(myObj, "mumbai");
+func(); //shubh from mumbai
+func("Maharashtra");//shubh from mumabi, Maharashtra
