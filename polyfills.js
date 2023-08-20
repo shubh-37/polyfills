@@ -30,3 +30,19 @@ Array.prototype.myFilter = function (callback){
 }
 
 [2,5,6,3,8,22].myFilter((num) => num%2); //[5,3]
+
+//Polyfill for reduce method which takes a callback function and an initial value as an argument
+
+Array.prototype.myReduce = function (callback, initialValue){
+    var accumulator = initialValue;
+    for(let i = 0; i < this.length; i++){
+        if(accumulator !== undefined){
+            accumulator = callback.call(undefined, accumulator, this[i], i, this);
+        }else{
+            accumulator = this[i];
+        }
+    }
+    return accumulator;
+}
+
+[3,4,2,5,6].myReduce((acc, num) => acc + num, 0); //20
