@@ -15,3 +15,18 @@ Array.prototype.myMap = function (callback){
 
 [2,4,5,6,3].myMap((num) => num * 2); //this will return [4,8,10,12,6]
 
+//Polyfill for filter which takes a callback as an argument
+
+Array.prototype.myFilter = function (callback){
+    var arr = [];
+    for(let i = 0; i < this.length; i++){
+        //only those values to be pushed inside the array which is returned
+        //by the callback function
+        if(callback.call(this, this[i], i, this)){
+            arr.push(this[i]);
+        }
+    }
+    return arr;
+}
+
+[2,5,6,3,8,22].myFilter((num) => num%2); //[5,3]
